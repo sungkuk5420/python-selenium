@@ -20,3 +20,19 @@ python get-pip.py
 pip -v 쳐서 설치 되었는지 확인한다.
 pip install selenium
 ```
+
+### download flask
+```
+pip install flask
+```
+
+### flask에 템플릿으로 화면 랜더링하기
+```
+templates라는 폴더를 만들어서 그안에 화면을 넣는다.
+```
+
+### download beautifulsoup4,requests
+```
+pip install beautifulsoup4
+pip install requests
+```
