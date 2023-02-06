@@ -8,11 +8,7 @@ import googletrans
 from googletrans import Translator
 import csv
 
-base_url = "https://www.nike.com/jp/w/mens-lifestyle-shoes-13jrmznik1zy7ok" # 신발
-# base_url = "https://www.nike.com/jp/w/mens-jackets-vests-50r7yznik1" # 옷
-imageIndex = 5
-
-
+base_url = "https://www.nike.com/jp/w/mens-lifestyle-shoes-13jrmznik1zy7ok"
 options = webdriver.ChromeOptions()
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
@@ -94,13 +90,11 @@ def getCurrentProductInfo(link):
     for currentTag in sizeTagsParent:
         sizeInput = currentTag.find_element(By.TAG_NAME,"input")          
         sizeText = currentTag.find_element(By.TAG_NAME,"label").get_attribute("textContent")
-        sizeText=sizeText.replace("[","").replace("'","").replace("JP","").replace("US","")
+        sizeText=sizeText.replace("[","").replace("'","").replace("JP","")
         if(sizeText.find(".")!=-1):
             sizeText=sizeText.replace(".","")
         else:
-            sizeText=sizeText.replace(" ","").replace("(US5)","").replace("(US6)","")
-            if(sizeText.isnumeric() == True):
-                sizeText = sizeText+"0"
+            sizeText=sizeText.replace(" ","").replace("(US5)","").replace("(US6)","")+"0"
         sizeText=sizeText.replace(" ","").replace("(US5)","").replace("(US6)","")
         sizeText = sizeText.replace(" ","")
         print(sizeText)
@@ -112,13 +106,12 @@ def getCurrentProductInfo(link):
             counts.append("0")
     productCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")            
     origin = driver.find_element(By.CLASS_NAME,"description-preview__origin").get_attribute("textContent")
-    origin =  translator.translate(origin, dest='ko').text
     # imageTags  = driver.find_element(By.CLASS_NAME,"css-1rayx7p").find_elements(By.TAG_NAME,"img")
     imageTags  = driver.find_element(By.CLASS_NAME,"css-1rayx7p").find_elements(By.XPATH,"//*[@data-sub-type='image']")
     index = 1
     for currentTag in imageTags:
         imageText = currentTag.find_elements(By.TAG_NAME,"picture")[1].find_element(By.TAG_NAME,"img").get_attribute("src")
-        if(index ==imageIndex):
+        if(index ==5):
             urllib.request.urlretrieve(imageText, productCode  +".png")
         # if(index ==6):
         #     urllib.request.urlretrieve(imageText, productCode  +"(1).png")
@@ -162,14 +155,13 @@ def fileSave(productInfo):
     imageString = '"'+imageString+'"'
     string = string+","+'"'+productInfo['images'][4]+'"'
     string = string+","+imageString
-    string = string+","+'"'+productInfo['origin']+'"'
+    string = string+","+productInfo['origin']
     # for currentImage in productInfo['images']:
     #     string = f'{string},"{currentImage}"'
     string = f'{string}\n'
     file.write(string)
     
 allProduct = list()
-
 def mainFunc():
     
     printLog(base_url+"페이지로 이동")
@@ -195,7 +187,8 @@ def mainFunc():
     print(alreadyLinks)
     fileSave(productInfo)
     mainFunc()
-    
+
+mainFunc()
 # fileSave(productInfo)
 
 # app = Flask("JobScrapper")
