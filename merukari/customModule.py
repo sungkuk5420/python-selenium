@@ -29,13 +29,17 @@ asset_dir = "images"
 
 options = Options()
 
+user_data = r"C:\Users\frees\AppData\Local\Google\Chrome\User Data"
+options.add_argument(f"user-data-dir={user_data}")
+options.add_argument("--profile-directory=Profile 3") 
+
 # user_data = r"C:\Users\frees\AppData\Local\Google\Chrome\User Data"
 # options.add_argument(f"user-data-dir={user_data}")
-# options.add_argument("--profile-directory=Profile 3")
+# options.add_argument("--profile-directory=Profile 2")
 
-user_data = r"C:\Users\pc\AppData\Local\Google\Chrome\User Data"
-options.add_argument(f"user-data-dir={user_data}")
-options.add_argument("--profile-directory=Default")
+# user_data = r"C:\Users\pc\AppData\Local\Google\Chrome\User Data"
+# options.add_argument(f"user-data-dir={user_data}")
+# options.add_argument("--profile-directory=Default")
 
 options.add_experimental_option("detach", True)  # 화면이 꺼지지 않고 유지
 
@@ -191,7 +195,7 @@ def moveToCurrentProductDetailPage(currentProduct):
         printLog("상품 상세 페이지 로딩중...") #product
     
     
-    commentFormString = driver.page_source.find("name='message'")
+    commentFormString = driver.page_source.find('name="message"')
     if commentFormString != -1:
         commentForm = driver.find_element(By.XPATH,"//textarea[@name='message']")
         commentForm.send_keys("ありがとうございました。")
@@ -216,8 +220,10 @@ def getCurrentProductInfo():
         imageNextButton = driver.find_element(By.CLASS_NAME,"slick-next") # 상품이미지 다운로드 전에 전체 이미지 로딩후 다운로드
         imageNextButton.click()
         time.sleep(2)
-    title = shadow.find_element(".heading.page")
-    titleText = title.text
+    # title = shadow.find_element(".heading.page")
+    # titleText = title.text
+    title = driver.find_element(By.TAG_NAME,"h1")
+    titleText = title.get_attribute("textContent")
     filePaths = list()
     imagesRoot = driver.find_element(By.CLASS_NAME, "slick-list")
     images = imagesRoot.find_elements(By.TAG_NAME, "mer-item-thumbnail")
@@ -232,10 +238,8 @@ def getCurrentProductInfo():
     time.sleep(1)
     printLog("제목 : "+titleText)
     price = driver.find_element(By.CLASS_NAME,"Price__StyledItemPrice-sc-1b74han-0")
-    priceShadowRoot = expandShadowElement(price)
     print(price)
     priceText = price.get_attribute("value")
-    print(priceShadowRoot)
     printLog("가격 : "+priceText)
     description = driver.find_element(By.TAG_NAME, "mer-show-more")
     descriptionChild = description.find_element(By.TAG_NAME,"mer-text")
@@ -255,6 +259,8 @@ def getCurrentProductInfo():
     print(brandParent.text)
     
     currentIndex = brandParent.text.index("商品の状態") if "商品の状態" in brandParent.text else -1
+    currentIndex2 = brandParent.text.index("商品のサイズ") if "商品のサイズ" in brandParent.text else -1
+    sizeText = NULL
     if(currentIndex != -1):
         brandText = NULL
         productState = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[2]")
@@ -272,7 +278,33 @@ def getCurrentProductInfo():
         sendDay = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[6]")
         printLog("발송기간 : "+sendDay.text.split("\n")[1])
         sendDayText = sendDay.text.split("\n")[1]
+
+    elif(currentIndex2 != -1):
+        print(2)
+        sizeParent = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[2]")
+        print(sizeParent)
+        size = sizeParent.find_elements(By.TAG_NAME,"span")[1]
+        sizeText = size.text
+        brandParent = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[3]")
+        brand = brandParent.find_element(By.TAG_NAME,"a")
+        brandText = brand.text
+        productState = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[4]")
+        printLog("상품 상태 : "+productState.text.split("\n")[1])
+        productStateText = productState.text.split("\n")[1]
+        payPerson = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[5]")
+        printLog("배송료 부담자 : "+payPerson.text.split("\n")[1])
+        payPersonText = payPerson.text.split("\n")[1]
+        delivery = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[6]")
+        printLog("배송방법 : "+delivery.text.split("\n")[1])
+        deliveryText = delivery.text.split("\n")[1]
+        sendArea = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[7]")
+        printLog("발송지 : "+sendArea.text.split("\n")[1])
+        sendAreaText = sendArea.text.split("\n")[1]
+        sendDay = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[8]")
+        printLog("발송기간 : "+sendDay.text.split("\n")[1])
+        sendDayText = sendDay.text.split("\n")[1]
     else:
+        print(3)
         brand = brandParent.find_element(By.TAG_NAME,"a")
         printLog("브랜드 : "+brand.text)
         brandText = brand.text
@@ -301,6 +333,7 @@ def getCurrentProductInfo():
         "category2": category2,
         "category3": category3,
         "brand": brandText,
+        "size": sizeText,
         "productState": productStateText,
         "payPerson": payPersonText,
         "delivery": deliveryText,
@@ -309,6 +342,7 @@ def getCurrentProductInfo():
         "filePaths": filePaths,
     }
     return productInfo
+
 
 def addProduct(productInfo):
     printLog("상품등록 페이지로 이동")

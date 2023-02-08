@@ -6,6 +6,7 @@ import urllib.request
 import googletrans
 from googletrans import Translator
 import csv
+import random
 
 # python.exe -m pip install --upgrade pip
 # pip install googletrans==3.1.0a0
@@ -24,6 +25,7 @@ options.add_argument('--disable-blink-features=AutomationControlled')
 driver = webdriver.Chrome(chrome_options=options)# 같은경로라면 드라이버 경로를 안써도 된다.
 
 alreadyLinks = list()
+forceAddProduct = list()
 productCode = ""
 
 def printLog(logMessage):
@@ -37,7 +39,7 @@ def waitProductListPageLoading():
     else:
         return True
 
-def isFindingProduct(alreadyLinks):
+def isFindingProduct(alreadyLinks,proceed):
     while(waitProductListPageLoading()): #product
         printLog("상품 리스트 페이지 로딩중...") #product
     printLog("리스트 페이지 로딩완료") #product
@@ -48,6 +50,16 @@ def isFindingProduct(alreadyLinks):
         currentLinkText = currentLinkTag.get_attribute("href")
         printLog(currentLinkText)
         # currentLinkText = "https://www.nike.com/jp/t/%E3%83%8A%E3%82%A4%E3%82%AD-%E3%82%A8%E3%82%A2-%E3%83%95%E3%82%A9%E3%83%BC%E3%82%B9-1-07-%E3%83%A1%E3%83%B3%E3%82%BA%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA-qJs9SJ/DV0788-001"
+        print(len(forceAddProduct))
+        print(forceAddProduct)
+        if(len(forceAddProduct)!= 0 ):
+            print("우선순위 링크 있음")
+            # currentLinkText = forceAddProduct.pop()
+            currentLinkText = forceAddProduct[len(forceAddProduct)-1]
+            print(len(forceAddProduct))
+        # else:
+        #     currentLinkText = "https://www.nike.com/jp/t/%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%97%E3%83%9E%E3%83%B3-%E3%83%84%E3%83%BC-%E3%83%88%E3%83%AC%E3%82%A4-%E3%83%A1%E3%83%B3%E3%82%BA%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA-D9WbBt/DO1925-106"
+
         currentIndex = alreadyLinks.index(currentLinkText) if currentLinkText in alreadyLinks else -1
         if(currentIndex == -1):
             print("상품 발견: " + currentLinkText + "//")
@@ -56,6 +68,9 @@ def isFindingProduct(alreadyLinks):
         else:
             print("이미 등록된상품입니다!!")
             print(currentLinkText)
+            
+            if(len(forceAddProduct)!= 0 ):
+                forceAddProduct.pop()
             print("상품을 탐색합니다")
     if (FoundItem != None):
         return FoundItem
@@ -77,136 +92,28 @@ def moveToCurrentProductDetailPage(currentLinkText):
         printLog("상품 상세 페이지 로딩중...") #product
     printLog("상세 페이지 로딩완료") #product
 
+def changeColor(link,productCode):
+    colors = driver.find_elements(By.CLASS_NAME,"css-7aigzk")
+    for currentProduct in colors:
+        newProductCode = currentProduct.find_element(By.TAG_NAME,"input").get_attribute("value")
+        newLink = link.replace(str(productCode),newProductCode)
+        forceAddProduct.append(newLink)
+    
 
 def getCurrentProductInfo(link):
-
     colors = driver.find_elements(By.CLASS_NAME,"css-7aigzk")
-    print(len(colors))
     productCode = str(driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", ""))
-    print(productCode)
-
     proceed = True
-    newLink = link
-
-
-    if(len(colors)==3):
-        colors[2].click()
-        print(productCode)
-        time.sleep(2)
-        newProductCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")   
-        if(newProductCode == productCode):
-            colors[1].click()
-            time.sleep(2)
-            newProductCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")   
-            if(newProductCode == productCode):
-                colors[0].click()
-                time.sleep(2)
-                newProductCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")   
-            print(newProductCode)
-            print(link)
-            link = link.replace(str(productCode),newProductCode)
-            print(link)
-            newLink = link
-        else:
-            print(newProductCode)
-            print(link)
-            link = link.replace(str(productCode),newProductCode)
-            print(link)
-            newLink = link
-            alreadyLinksLocal = list()
-            file = open("./result.csv", 'r', encoding="utf-8-sig")
-            csvreader = csv.reader(file)
-            for row in csvreader:
-                print(row)
-                if(row!=[]):
-                    alreadyLinksLocal.append(row[0])
 
             
-            currentIndex = alreadyLinksLocal.index(newLink) if newLink in alreadyLinksLocal else -1
-            if(currentIndex != -1):
-                print("이미 등록됨 : " + newLink + "//")
-                productCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")   
-                colors[1].click()
-                time.sleep(2)
-                print(link)
-                link = link.replace(str(productCode),newProductCode)
-                print(link)
-                newLink = link
-
-                file = open("./result.csv", 'r', encoding="utf-8-sig")
-                csvreader = csv.reader(file)
-                for row in csvreader:
-                    print(row)
-                    if(row!=[]):
-                        alreadyLinksLocal.append(row[0])
-
-                currentIndex = alreadyLinksLocal.index(newLink) if newLink in alreadyLinksLocal else -1
-                if(currentIndex != -1):
-                    colors[0].click()
-                    time.sleep(2)
-                newProductCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")   
-                print(productCode)
-                print(newProductCode)
-                print(newLink)
-                newLink = newLink.replace(str(productCode),newProductCode)
-                print(newLink)
-                currentIndex2 = alreadyLinksLocal.index(newLink) if newLink in alreadyLinksLocal else -1
-                if(currentIndex2 != -1):
-                    proceed = False
-                    
-        productCode = newProductCode
-
-    if(len(colors)==2):
-        colors[1].click()
-        print(productCode)
-        time.sleep(2)
-        newProductCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")   
-        if(newProductCode == productCode):
-            colors[0].click()
-            time.sleep(2)
-            newProductCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")   
-            print(newProductCode)
-            print(link)
-            link = link.replace(str(productCode),newProductCode)
-            print(link)
-            newLink = link
-        else:
-            print(newProductCode)
-            print(link)
-            link = link.replace(str(productCode),newProductCode)
-            print(link)
-            newLink = link
-            alreadyLinksLocal = list()
-            file = open("./result.csv", 'r', encoding="utf-8-sig")
-            csvreader = csv.reader(file)
-            print(csvreader)
-            for row in csvreader:
-                print(row)
-                if(row!=[]):
-                    alreadyLinksLocal.append(row[0])
-
-            
-            currentIndex = alreadyLinksLocal.index(newLink) if newLink in alreadyLinksLocal else -1
-            if(currentIndex != -1):
-                print("이미 등록됨 : " + newLink + "//")
-                productCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")   
-                colors[0].click()
-                time.sleep(2)
-                newProductCode = driver.find_element(By.CLASS_NAME,"description-preview__style-color").get_attribute("textContent").replace("スタイル： ", "")   
-                print(newProductCode)
-                print(newLink)
-                newLink = newLink.replace(str(productCode),newProductCode)
-                print(newLink)
-                currentIndex2 = alreadyLinksLocal.index(newLink) if newLink in alreadyLinksLocal else -1
-                if(currentIndex2 != -1):
-                    proceed = False
-                    
-            productCode = newProductCode    
-
+    if(len(colors)>=2 and len(forceAddProduct)== 0):
+        changeColor(link,productCode)
+        proceed = False
     if(proceed ==False):
-        driver.back()
+        return False
     else:
-    
+        if(len(forceAddProduct)!= 0):
+            forceAddProduct.pop()
         root  = driver.find_element(By.CLASS_NAME,"css-mso6zd")
         title  = root.find_element(By.ID,"pdp_product_title")
         titleText  = title.get_attribute("textContent")
@@ -252,6 +159,12 @@ def getCurrentProductInfo(link):
         index = 1
         for currentTag in imageTags:
             imageText = currentTag.find_elements(By.TAG_NAME,"picture")[1].find_element(By.TAG_NAME,"img").get_attribute("src")
+            print(currentTag.find_elements(By.TAG_NAME,"picture")[1].find_element(By.TAG_NAME,"img"))
+            print(imageText)
+            if(imageText==None):
+                time.sleep(3)
+                imageText = currentTag.find_elements(By.TAG_NAME,"picture")[1].find_element(By.TAG_NAME,"img").get_attribute("src")
+            print(imageText)
             if(index ==imageIndex):
                 urllib.request.urlretrieve(imageText, productCode  +".png")
             # if(index ==6):
@@ -262,7 +175,7 @@ def getCurrentProductInfo(link):
             index = index +1
 
         productInfo = {
-            "link": newLink,
+            "link": link,
             "productCode": productCode,
             "title": titleText,
             "subTitle": subTitleText,
@@ -304,6 +217,7 @@ def fileSave(productInfo):
     
 allProduct = list()
 def mainFunc():
+    scrollPosition = 0
     
     printLog(base_url+"페이지로 이동")
     driver.get(base_url) 
@@ -314,18 +228,23 @@ def mainFunc():
         print(row)
         if(row!=[]):
             alreadyLinks.append(row[0])
-    # while(isFindingProduct(alreadyLinks) == False):
-    #     printLog("재등록 상품 찾는중...")
+    
+    while(isFindingProduct(alreadyLinks,False) == False):
+        printLog("재등록 상품 찾는중...")
+        scrollPosition= scrollPosition+4000
+        driver.execute_script("window.scrollTo(0, "+str(scrollPosition)+")") 
+        time.sleep(1)
 
-    link = isFindingProduct(alreadyLinks)
+    link = isFindingProduct(alreadyLinks,True)
     moveToCurrentProductDetailPage(link)
 
 
     productInfo = getCurrentProductInfo(link)
-    allProduct.append(productInfo )
-    # print(productInfo)
-    print(alreadyLinks)
-    fileSave(productInfo)
+    if(productInfo!= False):
+        allProduct.append(productInfo )
+        # print(productInfo)
+        print(alreadyLinks)
+        fileSave(productInfo)
     mainFunc()
 
 mainFunc()
