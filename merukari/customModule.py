@@ -182,7 +182,7 @@ def isFindingProduct(titles):
         return False
 
 def waitProductDetailPageLoading():
-    detailPage = driver.page_source.find('StickyNode__SimpleSticky-sc-bomsx6-1')
+    detailPage = driver.page_source.find('sc-f6e64bff-1') # 상품 상세 페이지 클래스
     if detailPage != -1:
         return False
     else:
@@ -237,9 +237,11 @@ def getCurrentProductInfo():
         index = index+1
     time.sleep(1)
     printLog("제목 : "+titleText)
-    price = driver.find_element(By.CLASS_NAME,"Price__StyledItemPrice-sc-1b74han-0")
+    # price = driver.find_element(By.CLASS_NAME,"Price__StyledItemPrice-sc-1b74han-0")
+    # price = driver.find_element(By.CLASS_NAME,"PriceAndFee__StyledCustomPrice-sc-1ee2r1l-5")
+    price = driver.find_element(By.XPATH,"//div[@data-testid='price']")
     print(price)
-    priceText = price.get_attribute("value")
+    priceText = price.get_attribute("textContent")
     printLog("가격 : "+priceText)
     description = driver.find_element(By.TAG_NAME, "mer-show-more")
     descriptionChild = description.find_element(By.TAG_NAME,"mer-text")
