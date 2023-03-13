@@ -53,7 +53,7 @@ def isFindingProduct(alreadyLinks,proceed):
         # currentLinkText = "https://www.nike.com/jp/t/%E3%83%8A%E3%82%A4%E3%82%AD-%E3%82%A8%E3%82%A2-%E3%83%9E%E3%83%83%E3%82%AF%E3%82%B9-270-%E3%83%A1%E3%83%B3%E3%82%BA%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA-NLzLLx/AH8050-002"
         # currentLinkText = "https://www.nike.com/jp/u/custom-nike-air-force-1-low-by-you-10001371/5654759681"
         # currentLinkText = "https://www.nike.com/jp/launch/t/terminator-high-velvet-brown"
-        currentLinkText = "https://www.nike.com/jp/t/%E3%83%8A%E3%82%A4%E3%82%AD-%E3%82%A8%E3%82%A2-%E3%83%9E%E3%83%83%E3%82%AF%E3%82%B9-1-%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2%E3%83%A0-%E3%82%A6%E3%82%A3%E3%83%A1%E3%83%B3%E3%82%BA%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA-BS4f8q/DZ5352-847"
+        # currentLinkText = "https://www.nike.com/jp/t/%E3%83%8A%E3%82%A4%E3%82%AD-%E3%82%A4%E3%83%B3%E3%83%B4%E3%82%A3%E3%83%B3%E3%82%B7%E3%83%96%E3%83%AB-3-%E3%83%AD%E3%83%BC%E3%83%89-%E3%83%A9%E3%83%B3%E3%83%8B%E3%83%B3%E3%82%B0%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA-4g4ZZ2/DR2660-600"
         # print(len(forceAddProduct))
         # print(forceAddProduct)
         if(len(forceAddProduct)!= 0 ):
@@ -110,7 +110,8 @@ def getCurrentProductInfo(link):
     
     productCode = ""
     detailPage = driver.page_source.find('aria-label="カスタマイズ"')
-    if detailPage != -1:
+    detailPage2 = driver.page_source.find('description-preview__style-color')
+    if detailPage != -1 or detailPage2 == -1:
         productInfo = {
             "link": link,
             "productCode": "커스텀모델이라 패스",
