@@ -53,7 +53,7 @@ def isFindingProduct(alreadyLinks,proceed):
         # currentLinkText = "https://www.nike.com/jp/t/%E3%83%8A%E3%82%A4%E3%82%AD-%E3%82%A8%E3%82%A2-%E3%83%9E%E3%83%83%E3%82%AF%E3%82%B9-270-%E3%83%A1%E3%83%B3%E3%82%BA%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA-NLzLLx/AH8050-002"
         # currentLinkText = "https://www.nike.com/jp/u/custom-nike-air-force-1-low-by-you-10001371/5654759681"
         # currentLinkText = "https://www.nike.com/jp/launch/t/terminator-high-velvet-brown"
-        # currentLinkText = "https://www.nike.com/jp/t/%E3%83%8A%E3%82%A4%E3%82%AD-%E3%82%A4%E3%83%B3%E3%83%B4%E3%82%A3%E3%83%B3%E3%82%B7%E3%83%96%E3%83%AB-3-%E3%83%AD%E3%83%BC%E3%83%89-%E3%83%A9%E3%83%B3%E3%83%8B%E3%83%B3%E3%82%B0%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA-4g4ZZ2/DR2660-600"
+        currentLinkText = "https://www.nike.com/jp/t/%E3%80%90nike-%E3%82%A2%E3%83%97%E3%83%AA%E9%99%90%E5%AE%9A%E8%B2%A9%E5%A3%B2%E3%80%91%E3%83%8A%E3%82%A4%E3%82%AD-%E3%83%B4%E3%82%A7%E3%82%A4%E3%83%91%E3%83%BC%E3%83%95%E3%83%A9%E3%82%A4-%E3%83%8D%E3%82%AF%E3%82%B9%E3%83%88%EF%BC%85-3-%E3%83%AD%E3%83%BC%E3%83%89-%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%B3%E3%82%B0%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BA-bdn72H/DX7957-100"
         # print(len(forceAddProduct))
         # print(forceAddProduct)
         if(len(forceAddProduct)!= 0 ):

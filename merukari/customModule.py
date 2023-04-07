@@ -29,17 +29,17 @@ asset_dir = "images"
 
 options = Options()
 
-user_data = r"C:\Users\frees\AppData\Local\Google\Chrome\User Data"
-options.add_argument(f"user-data-dir={user_data}")
-options.add_argument("--profile-directory=Profile 3") 
+# user_data = r"C:\Users\frees\AppData\Local\Google\Chrome\User Data"
+# options.add_argument(f"user-data-dir={user_data}")
+# options.add_argument("--profile-directory=Profile 3") 
 
 # user_data = r"C:\Users\frees\AppData\Local\Google\Chrome\User Data"
 # options.add_argument(f"user-data-dir={user_data}")
 # options.add_argument("--profile-directory=Profile 2")
 
-# user_data = r"C:\Users\pc\AppData\Local\Google\Chrome\User Data"
-# options.add_argument(f"user-data-dir={user_data}")
-# options.add_argument("--profile-directory=Default")
+user_data = r"C:\Users\pc\AppData\Local\Google\Chrome\User Data"
+options.add_argument(f"user-data-dir={user_data}")
+options.add_argument("--profile-directory=Default")
 
 options.add_experimental_option("detach", True)  # 화면이 꺼지지 않고 유지
 
@@ -206,7 +206,7 @@ def moveToCurrentProductDetailPage(currentProduct):
         submitButton2.click() #product
         driver.back()
     else:
-        productLink = driver.find_element(By.CLASS_NAME,"StickyNode__SimpleSticky-sc-bomsx6-1").find_element(By.TAG_NAME,"a") # 상품 상세화면가기 전에 토리히키화면에서 왼쪽 사이드 바에서 링크찾기. #product
+        productLink = driver.find_element(By.CLASS_NAME,"merList border__79712af2").find_element(By.TAG_NAME,"a") # 상품 상세화면가기 전에 토리히키화면에서 왼쪽 사이드 바에서 링크찾기. #product
         productLink.click() #product
         time.sleep(2)
         productInfo = getCurrentProductInfo()
