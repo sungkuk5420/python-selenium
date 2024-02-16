@@ -2,10 +2,10 @@ import customModule
 
 def mainFunc():
 
-    customModule.printLog("재등록 상품 검색 시작")
-    titles = list() # test
-    while(customModule.isFindingProduct(titles) == False):
-        customModule.printLog("재등록 상품 찾는중...")
+customModule.printLog("재등록 상품 검색 시작")
+titles = list() # test
+while(customModule.isFindingProduct(titles) == False):
+    customModule.printLog("재등록 상품 찾는중...")
 
 
 

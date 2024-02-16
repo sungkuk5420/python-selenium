@@ -8,7 +8,8 @@ import googletrans
 from googletrans import Translator
 import csv
 
-base_url = "https://www.nike.com/jp/w/mens-lifestyle-shoes-13jrmznik1zy7ok" # 신발
+# base_url = "https://jp.shein.com/flash-sale.html" # 신발
+base_url = "https://www.naver.com" # 신발
 # base_url = "https://www.nike.com/jp/w/mens-jackets-vests-50r7yznik1" # 옷
 imageIndex = 5
 
@@ -175,15 +176,15 @@ def mainFunc():
     printLog(base_url+"페이지로 이동")
     driver.get(base_url) 
 
-    file = open("./result.csv", 'r', encoding="utf-8-sig")
-    csvreader = csv.reader(file)
-    print(csvreader)
-    for row in csvreader:
-        print(row)
-        if(row!=[]):
-            alreadyLinks.append(row[0])
-    # while(isFindingProduct(alreadyLinks) == False):
-    #     printLog("재등록 상품 찾는중...")
+    # file = open("./result.csv", 'r', encoding="utf-8-sig")
+    # csvreader = csv.reader(file)
+    # print(csvreader)
+    # for row in csvreader:
+    #     print(row)
+    #     if(row!=[]):
+    #         alreadyLinks.append(row[0])
+    # # while(isFindingProduct(alreadyLinks) == False):
+    # #     printLog("재등록 상품 찾는중...")
 
     link = isFindingProduct(alreadyLinks)
     moveToCurrentProductDetailPage(link)

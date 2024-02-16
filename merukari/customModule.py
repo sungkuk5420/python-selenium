@@ -206,7 +206,7 @@ def moveToCurrentProductDetailPage(currentProduct):
         submitButton2.click() #product
         driver.back()
     else:
-        productLink = driver.find_element(By.CLASS_NAME,"merList border__79712af2").find_element(By.TAG_NAME,"a") # 상품 상세화면가기 전에 토리히키화면에서 왼쪽 사이드 바에서 링크찾기. #product
+        productLink = driver.find_element(By.CLASS_NAME,"kuUrEK").find_element(By.TAG_NAME,"a") # 상품 상세화면가기 전에 토리히키화면에서 왼쪽 사이드 바에서 링크찾기. #product
         productLink.click() #product
         time.sleep(2)
         productInfo = getCurrentProductInfo()
@@ -249,7 +249,7 @@ def getCurrentProductInfo():
     descriptionText = descriptionChild.text
     printLog("상품설명 : "+descriptionText)
     categoryRoot = driver.find_element(By.ID,"item-info")
-    allCategory = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.TAG_NAME,"mer-display-row").find_element(By.TAG_NAME,"mer-breadcrumb-list")
+    allCategory = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.TAG_NAME,"mer-display-row").find_element(By.TAG_NAME,"mer-breadcrumb-list")
     allCategoryTextArray = allCategory.text.split("\n")
     category1 = allCategoryTextArray[0]
     category2 = allCategoryTextArray[1]
@@ -257,7 +257,7 @@ def getCurrentProductInfo():
     printLog("카테고리 1 : "+category1)
     printLog("카테고리 2 : "+category2)
     printLog("카테고리 3 : "+category3)
-    brandParent = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[2]")
+    brandParent = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[2]")
     print(brandParent.text)
     
     currentIndex = brandParent.text.index("商品の状態") if "商品の状態" in brandParent.text else -1
@@ -265,44 +265,44 @@ def getCurrentProductInfo():
     sizeText = NULL
     if(currentIndex != -1):
         brandText = NULL
-        productState = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[2]")
+        productState = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[2]")
         printLog("상품 상태 : "+productState.text.split("\n")[1])
         productStateText = productState.text.split("\n")[1]
-        payPerson = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[3]")
+        payPerson = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[3]")
         printLog("배송료 부담자 : "+payPerson.text.split("\n")[1])
         payPersonText = payPerson.text.split("\n")[1]
-        delivery = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[4]")
+        delivery = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[4]")
         printLog("배송방법 : "+delivery.text.split("\n")[1])
         deliveryText = delivery.text.split("\n")[1]
-        sendArea = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[5]")
+        sendArea = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[5]")
         printLog("발송지 : "+sendArea.text.split("\n")[1])
         sendAreaText = sendArea.text.split("\n")[1]
-        sendDay = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[6]")
+        sendDay = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[6]")
         printLog("발송기간 : "+sendDay.text.split("\n")[1])
         sendDayText = sendDay.text.split("\n")[1]
 
     elif(currentIndex2 != -1):
         print(2)
-        sizeParent = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[2]")
+        sizeParent = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[2]")
         print(sizeParent)
         size = sizeParent.find_elements(By.TAG_NAME,"span")[1]
         sizeText = size.text
-        brandParent = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[3]")
+        brandParent = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[3]")
         brand = brandParent.find_element(By.TAG_NAME,"a")
         brandText = brand.text
-        productState = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[4]")
+        productState = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[4]")
         printLog("상품 상태 : "+productState.text.split("\n")[1])
         productStateText = productState.text.split("\n")[1]
-        payPerson = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[5]")
+        payPerson = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[5]")
         printLog("배송료 부담자 : "+payPerson.text.split("\n")[1])
         payPersonText = payPerson.text.split("\n")[1]
-        delivery = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[6]")
+        delivery = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[6]")
         printLog("배송방법 : "+delivery.text.split("\n")[1])
         deliveryText = delivery.text.split("\n")[1]
-        sendArea = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[7]")
+        sendArea = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[7]")
         printLog("발송지 : "+sendArea.text.split("\n")[1])
         sendAreaText = sendArea.text.split("\n")[1]
-        sendDay = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[8]")
+        sendDay = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[8]")
         printLog("발송기간 : "+sendDay.text.split("\n")[1])
         sendDayText = sendDay.text.split("\n")[1]
     else:
@@ -311,19 +311,19 @@ def getCurrentProductInfo():
         printLog("브랜드 : "+brand.text)
         brandText = brand.text
         # brandText = NULL
-        productState = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[3]")
+        productState = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[3]")
         printLog("상품 상태 : "+productState.text.split("\n")[1])
         productStateText = productState.text.split("\n")[1]
-        payPerson = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[4]")
+        payPerson = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[4]")
         printLog("배송료 부담자 : "+payPerson.text.split("\n")[1])
         payPersonText = payPerson.text.split("\n")[1]
-        delivery = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[5]")
+        delivery = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[5]")
         printLog("배송방법 : "+delivery.text.split("\n")[1])
         deliveryText = delivery.text.split("\n")[1]
-        sendArea = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[6]")
+        sendArea = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[6]")
         printLog("발송지 : "+sendArea.text.split("\n")[1])
         sendAreaText = sendArea.text.split("\n")[1]
-        sendDay = categoryRoot.find_element(By.CLASS_NAME,"PsUPz").find_element(By.XPATH,"(//mer-display-row)[7]")
+        sendDay = categoryRoot.find_element(By.CLASS_NAME,"jnxwHu").find_element(By.XPATH,"(//mer-display-row)[7]")
         printLog("발송기간 : "+sendDay.text.split("\n")[1])
         sendDayText = sendDay.text.split("\n")[1]
     # print(len(allCategory))
@@ -359,8 +359,12 @@ def addProduct(productInfo):
         """)
 
         print(productInfo['delivery'])
-        currentButton = driver.find_element(By.TAG_NAME, "mer-text-link").find_element(By.TAG_NAME,"a")
-        currentButton.click()
+        currentButtons = driver.find_elements(By.CLASS_NAME, "merTextLink")
+        index = 0
+        for currentButton in currentButtons:
+            if index==1:
+                currentButton.find_element(By.TAG_NAME,"a").click()
+            index = +1
         time.sleep(4)
         if(productInfo['delivery'] == "らくらくメルカリ便"):
             currentButton = driver.find_element(By.TAG_NAME, "mer-radio-group").find_element(By.XPATH,"(//mer-radio-label)[1]")
@@ -372,7 +376,7 @@ def addProduct(productInfo):
             currentButton = driver.find_element(By.TAG_NAME, "mer-radio-group").find_element(By.XPATH,"(//mer-radio-label)[8]")
             
         currentButton.click()    
-        submitButton = driver.find_element(By.CLASS_NAME, "fpmkAf")
+        submitButton = driver.find_element(By.CLASS_NAME, "ePFKEn")
         submitButton.click()
         time.sleep(2)
 
@@ -395,21 +399,56 @@ def addProduct(productInfo):
                 os.remove(os.getcwd()+"\\"+filePath.replace("/","\\"))
                 printLog("이미지 파일 삭제 완료: " + os.getcwd()+"\\"+filePath.replace("/","\\"))
 
-        category1 = Select(driver.find_element(By.TAG_NAME, "form").find_element(By.XPATH, "//select[@name='category1']"))
-        category1.select_by_visible_text(productInfo['category1'])
-        time.sleep(1)
-        category2 = Select(driver.find_element(By.TAG_NAME, "form").find_element(By.XPATH, "//select[@name='category2']"))
-        category2.select_by_visible_text(productInfo['category2'])
-        time.sleep(1)
-        category3 = Select(driver.find_element(By.TAG_NAME, "form").find_element(By.XPATH, "//select[@name='category3']"))
-        category3.select_by_visible_text(productInfo['category3'])
+        printLog("카테고리 변경된 탭 안으로 이동 ")   
+        currentButtons = driver.find_elements(By.CLASS_NAME, "merTextLink")
+        index = 0
+        for currentButton in currentButtons:
+            if index==0:
+                currentButton.find_element(By.TAG_NAME,"a").click()
+            index = +1
+        time.sleep(2)
+        category1 = driver.find_elements(By.CLASS_NAME, "jxFmge")
+        for currentButton in category1:
+            text = currentButton.get_attribute("textContent")
+            print(text)
+            if ( text == productInfo['category1']):
+                currentButton.click()
+                break
+        time.sleep(2)
+        category2 = driver.find_elements(By.CLASS_NAME, "jxFmge")
+        for currentButton in category2:
+            text = currentButton.get_attribute("textContent")
+            print(text)
+            if ( text == productInfo['category2']):
+                currentButton.click()
+                break
+        time.sleep(2)
+        category3 = driver.find_elements(By.CLASS_NAME, "rowButton__58da284c")
+        for currentButton in category3:
+            text = currentButton.get_attribute("textContent")
+            print(text)
+            if ( text == productInfo['category3']):
+                currentButton.click()
+                break
+        time.sleep(10)
+        
+        # category1 = Select(driver.find_element(By.TAG_NAME, "form").find_element(By.XPATH, "//select[@name='category1']"))
+        # category1.select_by_visible_text(productInfo['category1'])
+        # time.sleep(1)
+        # category2 = Select(driver.find_element(By.TAG_NAME, "form").find_element(By.XPATH, "//select[@name='category2']"))
+        # category2.select_by_visible_text(productInfo['category2'])
+        # time.sleep(1)
+        # category3 = Select(driver.find_element(By.TAG_NAME, "form").find_element(By.XPATH, "//select[@name='category3']"))
+        # category3.select_by_visible_text(productInfo['category3'])
         time.sleep(1)
         if(productInfo['brand'] != NULL):
             brand = driver.find_element(By.TAG_NAME, "form").find_element(By.XPATH, "//mer-text-input[@label='ブランド']")
             print(brand)
             brand.click()
             brand.send_keys(productInfo['brand'])
-            driver.find_element(By.TAG_NAME, "form").find_element(By.TAG_NAME, "mer-action-row").click()
+            brand.send_keys(Keys.DOWN)
+            brand.send_keys(Keys.ENTER)
+            # driver.find_element(By.TAG_NAME, "form").find_element(By.TAG_NAME, "mer-action-row").click()
             time.sleep(1)
 
         productState = Select(driver.find_element(By.TAG_NAME, "form").find_element(By.XPATH, "//select[@name='itemCondition']"))
